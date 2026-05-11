@@ -114,6 +114,12 @@ Usuario: admin
 Contraseña: 1234
 
 
+Usuario: cliente
+
+
+Contraseña: 1234
+
+
 
 \---
 
