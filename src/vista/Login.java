@@ -118,6 +118,7 @@ public class Login extends JFrame {
                             campoContraseña.getPassword()
                     );
 
+            // Validar campos
             if (correo.isEmpty()
                     || contraseña.isEmpty()) {
 
@@ -129,7 +130,7 @@ public class Login extends JFrame {
                 return;
             }
 
-            // Usuario administrador
+            // Administrador
             if (correo.equals("admin")
                     && contraseña.equals("1234")) {
 
@@ -141,8 +142,24 @@ public class Login extends JFrame {
                 new Principal();
 
                 dispose();
+            }
 
-            } else {
+            // Cliente
+            else if (correo.equals("cliente")
+                    && contraseña.equals("1234")) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Bienvenido cliente"
+                );
+
+                new Principal();
+
+                dispose();
+            }
+
+            // Incorrecto
+            else {
 
                 JOptionPane.showMessageDialog(
                         this,
