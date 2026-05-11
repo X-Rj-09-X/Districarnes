@@ -131,7 +131,6 @@ Contraseña: 1234
 
 | Categoría | Tecnología elegida |
 
-|---|---|
 
 | Lenguaje | Java |
 
@@ -179,7 +178,6 @@ Contraseña: 1234
 
 | Concepto | Clase / método donde se aplica |
 
-|---|---|
 
 | Herencia | Usuario → Cliente / Administrador |
 
