@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package vista;
+
 import javax.swing.*;
 import java.awt.*;
 import modelos.Carne;
@@ -12,6 +13,7 @@ import servicio.PersistenciaServicio;
  *
  * @author Ricardo J
  */
+
 public class Principal extends JFrame {
 
     private double totalCarrito = 0;
@@ -25,7 +27,7 @@ public class Principal extends JFrame {
         persistencia = new PersistenciaServicio();
 
         setTitle("Districarnes - Sistema Principal");
-        setSize(900, 600);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -35,7 +37,10 @@ public class Principal extends JFrame {
         panelPrincipal.setLayout(new BorderLayout());
 
         // Título
-        JLabel titulo = new JLabel("Bienvenido a Districarnes", SwingConstants.CENTER);
+        JLabel titulo = new JLabel(
+                "Bienvenido a Districarnes",
+                SwingConstants.CENTER
+        );
 
         titulo.setFont(
                 new Font(
@@ -90,22 +95,25 @@ public class Principal extends JFrame {
                 "Pollo"
         );
 
+        // Arreglo productos
+        Carne[] productos = {
+            carne1,
+            carne2,
+            carne3
+        };
+
         // Mostrar productos
         areaInformacion.append(
                 "====== CATÁLOGO DISTRICARNES ======\n\n"
         );
 
-        areaInformacion.append(
-                carne1.toString() + "\n\n"
-        );
+        for (Carne producto : productos) {
 
-        areaInformacion.append(
-                carne2.toString() + "\n\n"
-        );
-
-        areaInformacion.append(
-                carne3.toString() + "\n\n"
-        );
+            areaInformacion.append(
+                    producto.toString()
+                    + "\n\n"
+            );
+        }
 
         // Panel botones
         JPanel panelBotones = new JPanel();
@@ -131,6 +139,9 @@ public class Principal extends JFrame {
         JButton botonCantidad =
                 new JButton("Modificar cantidad");
 
+        JButton botonModificarProducto =
+                new JButton("Modificar producto");
+
         panelBotones.add(botonProductos);
         panelBotones.add(botonCarrito);
         panelBotones.add(botonPedidos);
@@ -138,41 +149,77 @@ public class Principal extends JFrame {
         panelBotones.add(botonFinalizar);
         panelBotones.add(botonEliminar);
         panelBotones.add(botonCantidad);
+        panelBotones.add(botonModificarProducto);
 
         // Evento agregar carrito
         botonAgregarCarrito.addActionListener(e -> {
 
-            if (carne1.getStock() <= 0) {
+            String entrada =
+                    JOptionPane.showInputDialog(
+                            this,
+                            "Seleccione producto:\n"
+                            + "1. Carne Premium\n"
+                            + "2. Costillas BBQ\n"
+                            + "3. Pechuga Campesina"
+                    );
+
+            try {
+
+                int opcion =
+                        Integer.parseInt(entrada);
+
+                if (opcion < 1 || opcion > 3) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Producto inválido"
+                    );
+
+                    return;
+                }
+
+                Carne seleccion =
+                        productos[opcion - 1];
+
+                if (seleccion.getStock() <= 0) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "No hay stock disponible"
+                    );
+
+                    return;
+                }
+
+                cantidadCarrito++;
+
+                totalCarrito +=
+                        seleccion.getPrecio();
+
+                seleccion.setStock(
+                        seleccion.getStock() - 1
+                );
 
                 JOptionPane.showMessageDialog(
                         this,
-                        "No hay stock disponible"
+                        "Producto agregado:\n"
+                        + seleccion.getNombre()
+                        + "\nTotal: $"
+                        + totalCarrito
                 );
 
-                return;
+                persistencia.guardarLog(
+                        "Producto agregado: "
+                        + seleccion.getNombre()
+                );
+
+            } catch (NumberFormatException ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Ingrese número válido"
+                );
             }
-
-            cantidadCarrito++;
-
-            totalCarrito += carne1.getPrecio();
-
-            carne1.setStock(
-                    carne1.getStock() - 1
-            );
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Producto agregado\n"
-                    + "Cantidad: "
-                    + cantidadCarrito
-                    + "\nTotal: $"
-                    + totalCarrito
-            );
-
-            persistencia.guardarLog(
-                    "Producto agregado - Total: $"
-                    + totalCarrito
-            );
         });
 
         // Evento carrito
@@ -267,6 +314,86 @@ public class Principal extends JFrame {
                 JOptionPane.showMessageDialog(
                         this,
                         "Ingrese un número válido"
+                );
+            }
+        });
+
+        // Evento modificar producto
+        botonModificarProducto.addActionListener(e -> {
+
+            String entrada =
+                    JOptionPane.showInputDialog(
+                            this,
+                            "Seleccione producto modificar:\n"
+                            + "1. Carne Premium\n"
+                            + "2. Costillas BBQ\n"
+                            + "3. Pechuga Campesina"
+                    );
+
+            try {
+
+                int opcion =
+                        Integer.parseInt(entrada);
+
+                if (opcion < 1 || opcion > 3) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Producto inválido"
+                    );
+
+                    return;
+                }
+
+                Carne seleccion =
+                        productos[opcion - 1];
+
+                String nuevoNombre =
+                        JOptionPane.showInputDialog(
+                                this,
+                                "Nuevo nombre"
+                        );
+
+                double nuevoPrecio =
+                        Double.parseDouble(
+                                JOptionPane.showInputDialog(
+                                        this,
+                                        "Nuevo precio"
+                                )
+                        );
+
+                seleccion.setNombre(
+                        nuevoNombre
+                );
+
+                seleccion.setPrecio(
+                        nuevoPrecio
+                );
+
+                areaInformacion.setText("");
+
+                areaInformacion.append(
+                        "====== CATÁLOGO DISTRICARNES ======\n\n"
+                );
+
+                for (Carne producto : productos) {
+
+                    areaInformacion.append(
+                            producto.toString()
+                            + "\n\n"
+                    );
+                }
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Producto modificado correctamente"
+                );
+
+            } catch (NumberFormatException ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Dato inválido"
                 );
             }
         });
