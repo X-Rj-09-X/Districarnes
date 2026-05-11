@@ -6,6 +6,7 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 import modelos.Carne;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,12 +37,7 @@ public class Principal extends JFrame {
         areaInformacion.setEditable(false);
 
         areaInformacion.setFont(
-                new Font(
-                        "Monospaced",
-                        Font.PLAIN,
-                        14
-                )
-        );
+                new Font("Monospaced", Font.PLAIN, 14));
 
         // Productos de ejemplo
         Carne carne1 = new Carne(1, "Carne Premium", 35000, 2, 10, "Ribeye", "Res");
@@ -68,37 +64,47 @@ public class Principal extends JFrame {
         );
 
         // Panel botones
-        JPanel panelBotones =
-                new JPanel();
+        JPanel panelBotones = new JPanel();
 
-        JButton botonProductos =
-                new JButton("Productos");
+        JButton botonProductos = new JButton("Productos");
 
-        JButton botonCarrito =
-                new JButton("Carrito");
+        JButton botonCarrito = new JButton("Carrito");
 
-        JButton botonPedidos =
-                new JButton("Pedidos");
+        JButton botonPedidos = new JButton("Pedidos");
+        
+        JButton botonAgregarCarrito = new JButton("Agregar al carrito");
 
+        
         panelBotones.add(botonProductos);
         panelBotones.add(botonCarrito);
         panelBotones.add(botonPedidos);
+        panelBotones.add(botonAgregarCarrito);
+        
 
         // Agregar componentes
-        panelPrincipal.add(
-                titulo,
-                BorderLayout.NORTH
-        );
+        panelPrincipal.add(titulo, BorderLayout.NORTH);
 
-        panelPrincipal.add(
-                new JScrollPane(areaInformacion),
-                BorderLayout.CENTER
-        );
+        panelPrincipal.add(new JScrollPane(areaInformacion),BorderLayout.CENTER);
 
-        panelPrincipal.add(
-                panelBotones,
-                BorderLayout.SOUTH
-        );
+        panelPrincipal.add(panelBotones,BorderLayout.SOUTH);
+        
+        // Evento agregar carrito
+        botonAgregarCarrito.addActionListener(e -> {
+
+            JOptionPane.showMessageDialog(this, "Producto agregado al carrito");
+        });
+
+        // Evento carrito
+        botonCarrito.addActionListener(e -> {
+
+            JOptionPane.showMessageDialog(this, "Carrito funcionando");
+        });
+
+        // Evento pedidos
+        botonPedidos.addActionListener(e -> {
+
+            JOptionPane.showMessageDialog(this, "Pedidos funcionando");
+        });
 
         add(panelPrincipal);
 

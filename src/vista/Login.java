@@ -56,11 +56,25 @@ public class Login extends JFrame{
         // Evento botón
         botonIngresar.addActionListener(e -> {
 
+            String correo = campoCorreo.getText();
+
+            String contraseña = new String(campoContraseña.getPassword());
+
+            // Validar campos
+            if (correo.isEmpty() || contraseña.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Complete todos los campos");
+
+                return;
+            }
+
+            // Login correcto
             new Principal();
-            
+
             dispose();
         });
-
+        
+        
         setVisible(true);
     }
     
