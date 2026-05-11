@@ -56,7 +56,9 @@ public class Login extends JFrame{
         // Evento botón
         botonIngresar.addActionListener(e -> {
 
-            JOptionPane.showMessageDialog(this, "Login funcionando");
+            new Principal();
+            
+            dispose();
         });
 
         setVisible(true);
