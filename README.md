@@ -1,4 +1,4 @@
-\# 🛒 Districarnes
+\# 🥩 Districarnes
 
 Proyecto final — Java POO · Desarrollo de Software · 2026
 
@@ -172,7 +172,7 @@ Contraseña: 1234
 
 
 
-\# 📐 Conceptos POO aplicados
+\# ✏️ Conceptos POO aplicados
 
 
 
@@ -209,7 +209,6 @@ vista
 
 principal  
 
-utilidades
 
 
 
