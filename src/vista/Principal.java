@@ -6,15 +6,23 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 import modelos.Carne;
-import javax.swing.JOptionPane;
+import servicio.PersistenciaServicio;
 
 /**
  *
  * @author Ricardo J
  */
 public class Principal extends JFrame {
-    
+
+    private double totalCarrito = 0;
+
+    private int cantidadCarrito = 0;
+
+    private PersistenciaServicio persistencia;
+
     public Principal() {
+
+        persistencia = new PersistenciaServicio();
 
         setTitle("Districarnes - Sistema Principal");
         setSize(900, 600);
@@ -29,26 +37,62 @@ public class Principal extends JFrame {
         // Título
         JLabel titulo = new JLabel("Bienvenido a Districarnes", SwingConstants.CENTER);
 
-        titulo.setFont(new Font("Arial",Font.BOLD,24));
+        titulo.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        24
+                )
+        );
 
-        // Área central
-        JTextArea areaInformacion = new JTextArea();
+        // Área información
+        JTextArea areaInformacion =
+                new JTextArea();
 
         areaInformacion.setEditable(false);
 
         areaInformacion.setFont(
-                new Font("Monospaced", Font.PLAIN, 14));
+                new Font(
+                        "Monospaced",
+                        Font.PLAIN,
+                        14
+                )
+        );
 
-        // Productos de ejemplo
-        Carne carne1 = new Carne(1, "Carne Premium", 35000, 2, 10, "Ribeye", "Res");
+        // Productos ejemplo
+        Carne carne1 = new Carne(
+                1,
+                "Carne Premium",
+                35000,
+                2,
+                10,
+                "Ribeye",
+                "Res"
+        );
 
-        Carne carne2 = new Carne(2, "Costillas BBQ", 28000, 3, 15, "Costilla", "cerdo");
-                
-        Carne carne3 = new Carne(3, "Pechuga Campesina", 18000, 1, 20, "Pechuga", "Pollo");
+        Carne carne2 = new Carne(
+                2,
+                "Costillas BBQ",
+                28000,
+                3,
+                15,
+                "Costilla",
+                "Cerdo"
+        );
+
+        Carne carne3 = new Carne(
+                3,
+                "Pechuga Campesina",
+                18000,
+                1,
+                20,
+                "Pechuga",
+                "Pollo"
+        );
 
         // Mostrar productos
         areaInformacion.append(
-                "====== PRODUCTOS DISPONIBLES ======\n\n"
+                "====== CATÁLOGO DISTRICARNES ======\n\n"
         );
 
         areaInformacion.append(
@@ -66,45 +110,220 @@ public class Principal extends JFrame {
         // Panel botones
         JPanel panelBotones = new JPanel();
 
-        JButton botonProductos = new JButton("Productos");
+        JButton botonProductos =
+                new JButton("Productos");
 
-        JButton botonCarrito = new JButton("Carrito");
+        JButton botonCarrito =
+                new JButton("Carrito");
 
-        JButton botonPedidos = new JButton("Pedidos");
-        
-        JButton botonAgregarCarrito = new JButton("Agregar al carrito");
+        JButton botonPedidos =
+                new JButton("Pedidos");
 
-        
+        JButton botonAgregarCarrito =
+                new JButton("Agregar al carrito");
+
+        JButton botonFinalizar =
+                new JButton("Finalizar compra");
+
+        JButton botonEliminar =
+                new JButton("Eliminar carrito");
+
+        JButton botonCantidad =
+                new JButton("Modificar cantidad");
+
         panelBotones.add(botonProductos);
         panelBotones.add(botonCarrito);
         panelBotones.add(botonPedidos);
         panelBotones.add(botonAgregarCarrito);
-        
+        panelBotones.add(botonFinalizar);
+        panelBotones.add(botonEliminar);
+        panelBotones.add(botonCantidad);
 
-        // Agregar componentes
-        panelPrincipal.add(titulo, BorderLayout.NORTH);
-
-        panelPrincipal.add(new JScrollPane(areaInformacion),BorderLayout.CENTER);
-
-        panelPrincipal.add(panelBotones,BorderLayout.SOUTH);
-        
         // Evento agregar carrito
         botonAgregarCarrito.addActionListener(e -> {
 
-            JOptionPane.showMessageDialog(this, "Producto agregado al carrito");
+            if (carne1.getStock() <= 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No hay stock disponible"
+                );
+
+                return;
+            }
+
+            cantidadCarrito++;
+
+            totalCarrito += carne1.getPrecio();
+
+            carne1.setStock(
+                    carne1.getStock() - 1
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Producto agregado\n"
+                    + "Cantidad: "
+                    + cantidadCarrito
+                    + "\nTotal: $"
+                    + totalCarrito
+            );
+
+            persistencia.guardarLog(
+                    "Producto agregado - Total: $"
+                    + totalCarrito
+            );
         });
 
         // Evento carrito
         botonCarrito.addActionListener(e -> {
 
-            JOptionPane.showMessageDialog(this, "Carrito funcionando");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Cantidad productos: "
+                    + cantidadCarrito
+                    + "\nTotal carrito: $"
+                    + totalCarrito
+            );
         });
 
         // Evento pedidos
         botonPedidos.addActionListener(e -> {
 
-            JOptionPane.showMessageDialog(this, "Pedidos funcionando");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Historial disponible en pedidos.txt"
+            );
         });
+
+        // Evento eliminar carrito
+        botonEliminar.addActionListener(e -> {
+
+            if (cantidadCarrito <= 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "El carrito está vacío"
+                );
+
+                return;
+            }
+
+            cantidadCarrito--;
+
+            totalCarrito -= carne1.getPrecio();
+
+            carne1.setStock(
+                    carne1.getStock() + 1
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Producto eliminado\n"
+                    + "Cantidad restante: "
+                    + cantidadCarrito
+            );
+        });
+
+        // Evento modificar cantidad
+        botonCantidad.addActionListener(e -> {
+
+            String entrada =
+                    JOptionPane.showInputDialog(
+                            this,
+                            "Ingrese nueva cantidad"
+                    );
+
+            try {
+
+                int nuevaCantidad =
+                        Integer.parseInt(entrada);
+
+                if (nuevaCantidad < 0) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Cantidad inválida"
+                    );
+
+                    return;
+                }
+
+                cantidadCarrito = nuevaCantidad;
+
+                totalCarrito =
+                        cantidadCarrito
+                        * carne1.getPrecio();
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Cantidad actualizada\n"
+                        + "Nuevo total: $"
+                        + totalCarrito
+                );
+
+            } catch (NumberFormatException ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Ingrese un número válido"
+                );
+            }
+        });
+
+        // Evento finalizar compra
+        botonFinalizar.addActionListener(e -> {
+
+            if (totalCarrito <= 0) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "El carrito está vacío"
+                );
+
+                return;
+            }
+
+            String metodoPago =
+                    JOptionPane.showInputDialog(
+                            this,
+                            "Método de pago:\n1. Tarjeta\n2. Efectivo"
+                    );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Pedido realizado correctamente\n"
+                    + "Total pagado: $"
+                    + totalCarrito
+            );
+
+            persistencia.guardarLog(
+                    "Pedido realizado - Total: $"
+                    + totalCarrito
+                    + " - Método: "
+                    + metodoPago
+            );
+
+            totalCarrito = 0;
+
+            cantidadCarrito = 0;
+        });
+
+        // Agregar componentes
+        panelPrincipal.add(
+                titulo,
+                BorderLayout.NORTH
+        );
+
+        panelPrincipal.add(
+                new JScrollPane(areaInformacion),
+                BorderLayout.CENTER
+        );
+
+        panelPrincipal.add(
+                panelBotones,
+                BorderLayout.SOUTH
+        );
 
         add(panelPrincipal);
 
