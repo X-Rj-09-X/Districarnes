@@ -16,7 +16,11 @@ Proyecto final — Java POO · Desarrollo de Software · 2026
 
 |---|---|
 
-| Ricardo Florez | @X-Rj-09-X |
+| Ricardo Flórez | @X-Rj-09-X |
+
+| Dina Perez | @DinaPerezMontes |
+
+| Salvador Paternina | @Sal1044 |
 
 
 
