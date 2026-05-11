@@ -5,6 +5,7 @@
 package vista;
 import javax.swing.*;
 import java.awt.*;
+import modelos.Carne;
 
 /**
  *
@@ -30,14 +31,43 @@ public class Principal extends JFrame {
         titulo.setFont(new Font("Arial",Font.BOLD,24));
 
         // Área central
-        JTextArea areaInformacion =
-                new JTextArea();
+        JTextArea areaInformacion = new JTextArea();
 
         areaInformacion.setEditable(false);
 
-        areaInformacion.setText("Sistema Ecommerce Districarnes");
+        areaInformacion.setFont(
+                new Font(
+                        "Monospaced",
+                        Font.PLAIN,
+                        14
+                )
+        );
 
-        // Botones
+        // Productos de ejemplo
+        Carne carne1 = new Carne(1, "Carne Premium", 35000, 2, 10, "Ribeye", "Res");
+
+        Carne carne2 = new Carne(2, "Costillas BBQ", 28000, 3, 15, "Costilla", "cerdo");
+                
+        Carne carne3 = new Carne(3, "Pechuga Campesina", 18000, 1, 20, "Pechuga", "Pollo");
+
+        // Mostrar productos
+        areaInformacion.append(
+                "====== PRODUCTOS DISPONIBLES ======\n\n"
+        );
+
+        areaInformacion.append(
+                carne1.toString() + "\n\n"
+        );
+
+        areaInformacion.append(
+                carne2.toString() + "\n\n"
+        );
+
+        areaInformacion.append(
+                carne3.toString() + "\n\n"
+        );
+
+        // Panel botones
         JPanel panelBotones =
                 new JPanel();
 
