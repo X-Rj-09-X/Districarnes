@@ -13,7 +13,7 @@ import java.awt.*;
  */
 public class Login extends JFrame {
 
-    private JTextField campoCorreo;
+    private JTextField campoUsuario;
 
     private JPasswordField campoContraseña;
 
@@ -40,13 +40,13 @@ public class Login extends JFrame {
                 new Insets(10, 10, 10, 10);
 
         // Componentes
-        JLabel labelCorreo =
-                new JLabel("Correo:");
+        JLabel labelUsuario =
+                new JLabel("Usuario:");
 
         JLabel labelContraseña =
                 new JLabel("Contraseña:");
 
-        campoCorreo =
+        campoUsuario =
                 new JTextField(15);
 
         campoContraseña =
@@ -58,23 +58,23 @@ public class Login extends JFrame {
         botonRegistro =
                 new JButton("Registrarse");
 
-        // Fila 1
+        // Fila usuario
         gbc.gridx = 0;
         gbc.gridy = 0;
 
         panelPrincipal.add(
-                labelCorreo,
+                labelUsuario,
                 gbc
         );
 
         gbc.gridx = 1;
 
         panelPrincipal.add(
-                campoCorreo,
+                campoUsuario,
                 gbc
         );
 
-        // Fila 2
+        // Fila contraseña
         gbc.gridx = 0;
         gbc.gridy = 1;
 
@@ -110,8 +110,8 @@ public class Login extends JFrame {
         // Evento login
         botonIngresar.addActionListener(e -> {
 
-            String correo =
-                    campoCorreo.getText();
+            String usuario =
+                    campoUsuario.getText();
 
             String contraseña =
                     new String(
@@ -119,7 +119,7 @@ public class Login extends JFrame {
                     );
 
             // Validar campos
-            if (correo.isEmpty()
+            if (usuario.isEmpty()
                     || contraseña.isEmpty()) {
 
                 JOptionPane.showMessageDialog(
@@ -131,7 +131,7 @@ public class Login extends JFrame {
             }
 
             // Administrador
-            if (correo.equals("admin")
+            if (usuario.equals("admin")
                     && contraseña.equals("1234")) {
 
                 JOptionPane.showMessageDialog(
@@ -145,7 +145,7 @@ public class Login extends JFrame {
             }
 
             // Cliente
-            else if (correo.equals("cliente")
+            else if (usuario.equals("cliente")
                     && contraseña.equals("1234")) {
 
                 JOptionPane.showMessageDialog(
@@ -171,15 +171,15 @@ public class Login extends JFrame {
         // Evento registro
         botonRegistro.addActionListener(e -> {
 
-            String correo =
-                    campoCorreo.getText();
+            String usuario =
+                    campoUsuario.getText();
 
             String contraseña =
                     new String(
                             campoContraseña.getPassword()
                     );
 
-            if (correo.isEmpty()
+            if (usuario.isEmpty()
                     || contraseña.isEmpty()) {
 
                 JOptionPane.showMessageDialog(
