@@ -6,3 +6,7 @@ Pedido realizado - Total: $35000.0 - Método: 1
 Producto agregado - Total: $35000.0
 Producto agregado - Total: $35000.0
 Producto agregado: Pechuga Campesina
+Producto agregado: Costillas BBQ
+Pedido realizado - Total: $28000.0 - Método: null
+Producto agregado: Costillas BBQ
+Pedido realizado - Total: $28000.0 - Método: 1
